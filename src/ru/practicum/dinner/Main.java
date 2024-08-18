@@ -24,6 +24,9 @@ public class Main {
                     break;
                 case "3":
                     return;
+                default:
+                    System.out.println("Некорректный ввод команды");
+                    break;
             }
         }
     }
@@ -42,24 +45,35 @@ public class Main {
         String dishName = scanner.nextLine();
 
         // добавьте новое блюдо
+        dc.addNewDish(dishType, dishName);
     }
 
     private static void generateDishCombo() {
+        if (dc.isEmptyMenu()) {
+            System.out.println("Меню не заполнено блюдами");
+            return;
+        }
         System.out.println("Начинаем конструировать обед...");
 
         System.out.println("Введите количество наборов, которые нужно сгенерировать:");
         int numberOfCombos = scanner.nextInt();
+        while (numberOfCombos <= 0) {
+            System.out.println("Количество должно быть больше 0, введите еще раз:");
+            numberOfCombos = scanner.nextInt();
+        }
         scanner.nextLine();
+        dc.setNumberOfCombos(numberOfCombos);
 
         System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
         String nextItem = scanner.nextLine();
 
         //реализуйте ввод типов блюд
         while (!nextItem.isEmpty()) {
-
+            dc.addComboDishType(nextItem);
+            nextItem = scanner.nextLine();
         }
 
         // сгенерируйте комбинации блюд и выведите на экран
-
+        dc.printCombo();
     }
 }
